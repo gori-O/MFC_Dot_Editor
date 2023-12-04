@@ -4,19 +4,19 @@
 
 #pragma once
 
-#define X_COUNT			30
-#define Y_COUNT			30
-#define RECT_INTERVAL	20
+#define X_COUNT			30						// 가로
+#define Y_COUNT			30						// 세로. 도트 갯수
+#define RECT_INTERVAL	20						// 도트 간격
 
 // CMFCDotEditorDlg 대화 상자
 class CMFCDotEditorDlg : public CDialogEx
 {
 private:
-	COLORREF m_dot_color[Y_COUNT][X_COUNT];
-	COLORREF m_left_color, m_right_color;
-	CPen m_grid_pen;
+	COLORREF m_dot_color[Y_COUNT][X_COUNT];				// 낙서장 전체의 도트 하나하나를 배열로 저장
+	COLORREF m_left_color, m_right_color;				// 마우스 오른쪽, 왼쪽의 색상을 다르게 하기위함
+	CPen m_grid_pen;									// 도트 그릴 때 사용할 cpen
 
-	CRect m_left_rect, m_right_rect;
+	CRect m_left_rect, m_right_rect;					// ?
 // 생성입니다.
 public:
 	CMFCDotEditorDlg(CWnd* pParent = nullptr);	// 표준 생성자입니다.

@@ -22,14 +22,14 @@ CMFCDotEditorDlg::CMFCDotEditorDlg(CWnd* pParent /*=nullptr*/)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
-	for (int y = 0; y < Y_COUNT; y++) {
+	for (int y = 0; y < Y_COUNT; y++) {						// 도트 전체를 흰색으로 초기화 한다.
 		for (int x = 0; x < X_COUNT; x++) {
 			m_dot_color[y][x] = RGB(255, 255, 255);
 		}
 	}
 
-	m_left_color = RGB(0, 0, 255);
-	m_right_color = RGB(255, 255, 255);
+	m_left_color = RGB(0, 0, 255);							// 왼쪽클릭 색상 = blue 로 초기화
+	m_right_color = RGB(255, 255, 255);						// 오른쪽 색상 = black 으로 초기화
 }
 
 void CMFCDotEditorDlg::DoDataExchange(CDataExchange* pDX)
@@ -59,7 +59,7 @@ BOOL CMFCDotEditorDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
-	GetDlgItem(IDC_LEFT_COLOR_BTN)->GetWindowRect(&m_left_rect);
+	GetDlgItem(IDC_LEFT_COLOR_BTN)->GetWindowRect(&m_left_rect);		
 	ScreenToClient(m_left_rect);
 	m_left_rect.left -= 15;
 	m_left_rect.right = m_left_rect.left + 10;
@@ -96,28 +96,27 @@ void CMFCDotEditorDlg::OnPaint()
 	}
 	else
 	{
-		CPen* p_old_pen = dc.SelectObject(&m_grid_pen);
-		CBrush* p_old_brush = dc.GetCurrentBrush();
-		CBrush tmp_brush;
+		CPen* p_old_pen = dc.SelectObject(&m_grid_pen);				// 배경을 그림
+		CBrush* p_old_brush = dc.GetCurrentBrush();					// 브러시 바뀌기전 현재브러시 저장
 
-		dc.SelectStockObject(DC_BRUSH);		
+		dc.SelectStockObject(DC_BRUSH);										
 
 		for (int y = 0; y < Y_COUNT; y++) {
 			for (int x = 0; x < X_COUNT; x++) {
-				if (dc.GetDCBrushColor() != m_dot_color[y][x]) {
-					dc.SetDCBrushColor(m_dot_color[y][x]);
+				if (dc.GetDCBrushColor() != m_dot_color[y][x]) {// 도트 색상이 달라지면=(배경을 제외하기 위한 조건절)
+					dc.SetDCBrushColor(m_dot_color[y][x]);		// 해당 도트의 색으로 브러시설정한다.
 				}
-				dc.Rectangle(x * RECT_INTERVAL, y * RECT_INTERVAL,
+				dc.Rectangle(x * RECT_INTERVAL, y * RECT_INTERVAL,		// 설정된 크기로 도트들을 그린다.
 					RECT_INTERVAL + 1 + x * RECT_INTERVAL,
 					RECT_INTERVAL + 1 + y * 20);
 			}
 		}
-		dc.SetDCBrushColor(m_left_color);
+		dc.SetDCBrushColor(m_left_color);							
 		dc.Rectangle(m_left_rect);
 		dc.SetDCBrushColor(m_right_color);
 		dc.Rectangle(m_right_rect);
-		dc.SelectObject(p_old_brush);
-		dc.SelectObject(p_old_pen);
+		dc.SelectObject(p_old_brush);					// 원래 브러시로 복구
+		dc.SelectObject(p_old_pen);						// 원래 펜으로 복구  
 		//CDialogEx::OnPaint();
 	}
 }
